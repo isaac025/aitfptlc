@@ -1,0 +1,2 @@
+# An Introduction to Functional Programming Through Lambda Calculus
+Notes and answers to exercises to the book: [An Introduction to Functional Programming Through Lambda Calculus](https://www.amazon.com/Introduction-Functional-Programming-Calculus-Mathematics/dp/0486478831/ref=sr_1_1?keywords=an+introduction+to+functional+programming+through+lambda+calculus&qid=1677637938&sprefix=an+introduction+to+function%2Caps%2C283&sr=8-1)
