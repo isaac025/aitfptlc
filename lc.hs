@@ -210,9 +210,42 @@ makePair = \first -> \second -> \func -> ((func first) second)
 --                 argument expression: i
   
 -- Exercise 2.2
--- (a) 
+-- (a) ((\x.\y.(y x) \p.\q.p) \i.i)
+--   = (\y.(y \p.\q.p) \i.i)
+--   = (\i.i \p.\q.p)
+--   = \p.\q.p
+--
+-- (b) (((\x.\y.\z.((x y) z) \f.\a.(f a)) \i.i) \j.j) 
+--   = ((\y.\z.((\f.\a.(f a) y) z) \i.i) \j.j)
+--   = (\z.((\f.\a.(f a) \i.i) z) \j.j)
+--   = ((\f.\a.(f a) \i.i) \j.j)
+--   = (\a.(\i.i a) \j.j)
+--   = (\i.i \j.j)
+--   = \j.j
+--
+-- (c) (\h.((\a.\f.(f a) h) h) \f.(f f))
+--   = ((\a.\f.(f a) \f.(f f)) \f.(f f))
+--   = (\f.(f \f.(f f)) \f.(f f))
+--   = (\f.(f f) \f.(f f))
+--   = (\f.(f f) \f.(f f))
+--   ....
+--   = to infinity
+--    
+-- (d) ((\p.\q.(p q) (\x.x \a.\b.a)) \k.k)
+--   = ((\p.\q.(p q) \a.\b.a) \k.k)
+--   = (\q.(\a.\b.a q) \k.k)
+--   = (\a.\b.a \k.k)
+--   = \b.\k.k
+--
+-- (e) (((\f.\g.\x.(f (g x)) \s.(s s)) \a.\b.b) \x.\y.x)
+--   = ((\g.\x.(\s.(s s) (g x)) \a.\b.b) \x.\y.x)
+--   = (\x.(\s.(s s) \a.\b.b x) \x.\y.x)
+--   = (\s.(s s) (\a.\b.b \x.\y.x))
+--   = (\s.(s s) \b.b)
+--   = (\b.b \b.b)
+--   = \b.b
   
 -- Exercise 2.3
-  
 -- Exercise 2.4
 -- Exercise 2.5
+-- Exercise 2.6
