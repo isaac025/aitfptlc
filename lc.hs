@@ -246,6 +246,64 @@ makePair = \first -> \second -> \func -> ((func first) second)
 --   = \b.b
   
 -- Exercise 2.3
+-- (a) (i) identity == \x.x
+--     (ii) (apply (apply identiy)) == (\func.\arg.(func arg) (\func.\arg.(func arg) \x.x))
+--         = (\func.\arg.(func arg) \arg.(\x.x arg))
+--         = \arg.(\arg.(\x.x arg) arg) => applied to arbitrary argument arg1
+--         = \arg.(\x.x arg) arg1
+--         = \x.x arg1
+--         = arg1 => which is in fact the identity function
+-- (b) (i) apply == \func.\arg.(func arg)
+--     (ii) \x.\y.(((makePair x) y) identity), makePair = \first.\second.\func.((func first) second)
+--         = \x.\y.(((\first.\second.\func.((func first) second) x) y) \x.x)
+--         = \x.\y.((\second.\func.((func x) second) y) \x.x)
+--         = \x.\y.\func.(((func x) y) \x.x)
+--         = \x.\y.((\x.x x) y) => applied to arbitrary function func1
+--         = \y.((\x.x func1) y)
+--         = \y.(func1 y) => applied to arbitrary argument arg1
+--         = (func1 arg1) 
+-- (c) (i) identity == \x.x
+--     (ii) (selfApply (selfApply selectSecond)), selfApply = \s.(s s), selectSecond = \first.\second.second
+--        = (\s.(s s) (\s.(s s) \first.\second.second))
+--        = (\s.(s s) (\first.\second.second \first.\second.second))
+--        = (\s.(s s) \second.second)
+--        = (\second.second \second.second)
+--        = \second.second => applied to arbitrary argument arg1
+--        = arg1
 -- Exercise 2.4
+-- def makeTriple = \first.\second.\third.\func(((func first) second) third)
+-- def tripleFirst = \first.\second.\third.first
+-- def tripleSecond = \first.\second.\third.second
+-- def tripleThird = \first.\second.\third.third
+-- | makeTriple i1 i2 i3 tripleFirst == i1
+-- = ((((\first.\second.\third.\func.(((func first) second) third) i1) i2) i3) tripleFirst) == i1
+-- = (((\second.\third.\func.(((func i1) second) third) i2) i3) tripleFirst) == i1
+-- = ((\third.\func.(((func i1) i2) third) i3) tripleFirst) == i1
+-- = (\func.(((func i1) i2) i3) tripleFirst) == i1
+-- = (((tripleFirst i1) i2) i3) == i1
+-- = (((\first.\second.\third.first i1) i2) i3) == i1
+-- = ((\second.\third.i1 i2) i3) == i1
+-- = (\third.i1 i3) == i1
+-- = i1 == i1
+-- | makeTriple i1 i2 i3 tripleSecond == i2
+-- = ((((\first.\second.\third.\func.(((func first) second) third) i1) i2) i3) tripleSecond) == i2
+-- = (((\second.\third.\func.(((func i1) second) third) i2) i3) tripleSecond) == i2
+-- = ((\third.\func.(((func i1) i2) third) i3) tripleSecond) == i2
+-- = (\func.(((func i1) i2) i3) tripleSecond) == i2
+-- = (((tripleSecond i1) i2) i3) == i2
+-- = (((\first.\second.\third.second i1) i2) i3) == i2
+-- = ((\second.\third.second i2) i3) == i2
+-- = (\third.i2 i3) == i2
+-- = i2 == i2
+-- | makeTriple i1 i2 i3 tripleThird == i3
+-- = ((((\first.\second.\third.\func.(((func first) second) third) i1) i2) i3) tripleThird) == i3
+-- = (((\second.\third.\func.(((func i1) second) third) i2) i3) tripleThird) == i3
+-- = ((\third.\func.(((func i1) i2) third) i3) tripleThird) == i3
+-- = (\func.(((func i1) i2) i3) tripleSecond) == i3
+-- = (((tripleThird i1) i2) i3) == i3
+-- = (((\first.\second.\third.third i1) i2) i3) == i3
+-- = ((\second.\third.third i2) i3) == i3
+-- = (\third.third i3) == i3
+-- = i3 == i3
 -- Exercise 2.5
 -- Exercise 2.6
