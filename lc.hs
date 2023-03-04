@@ -306,4 +306,27 @@ makePair = \first -> \second -> \func -> ((func first) second)
 -- = (\third.third i3) == i3
 -- = i3 == i3
 -- Exercise 2.5
+-- (a) \x.\y.(\x.y \y.x) == \x.\y.\y.x == \y.\y.x == \y.x == x
+--    bound variables: x,y
+--    free variables: x,y
+-- (b) \x.(x (\y.(\x.x y) x)) == \x.(x (\y.y x)) == \x.(x x)
+--    bound variables: x
+--    free variables: x
+-- (c) \a.(\b.a \b.(\a.a b)) == \a.(\b.a \b.b) == \a.a
+--    bound variables: a
+--    free variables: a
+-- (d) (\free.bound \bound.(\free.free bound)) == (\free.bound \bound.bound) == bound
+--    bound variables: 
+--    free variables: bound
+-- (e) \p.\q.(\r.(p (\q.(\p.(r q)))) (q p)) 
+--    bound variables: p,q,r
+--    free variables: q, p, r
+--  == \p.\q.(p (\q.(\p.((q p) q))))
+--    bound variables: p,q
+--    free variables: p,q
 -- Exercise 2.6
+-- (a) \x.\y.(\x.y \y.x) => \x.\y.(\z.y \a.x)
+-- (b) \x.(x (\y.(\x.x y) x)) => \x.(x (\y.(\z.z y) x))
+-- (c) \a.(\b.a \b.(\a.a b)) => \a.(\b.a \b.(\x.x b))
+-- (e) \p.\q.(\r.(p (\q.(\p.(r q)))) (q p)) => \p.\q.(\r.(p (\x.(\y.(r x)))) (q p))
+
