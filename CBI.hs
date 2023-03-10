@@ -73,10 +73,12 @@ implies2 = \x -> \y -> ((y true) ((x false) true))
 -- = \x.\y.(or x ((y false) true))
 -- = \x.\y.(((((y \f.\s.s) \f.\s.f) \f.\s.f) x))
 --equiv = \x -> \y -> (or x (not y))
---
--- x equiv y === (x /\ y) \/ (~x /\ ~y)
-
-
 --equiv :: (forall a b. (a -> b -> a) -> (a -> b -> b)) -> a -> b -> p1 -> p2 -> p2
 --equiv = \x -> \y -> (and (or (not x) y) (or x (not y)))
 --equiv = \x -> \y -> (and (((y true) ((x false) true))) (((x true) (((y false) true) y))))
+--
+-- CORRECT
+-- x equiv y === (x /\ y) \/ (~x /\ ~y)
+-- equiv = \x.\y.((or ((and x) y)) ((and (not x)) (not y)))
+
+equiv = \x -> \y -> ((or ((and x) y)) ((and (not x)) (not y)))
