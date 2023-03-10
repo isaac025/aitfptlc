@@ -1,12 +1,12 @@
 module CBI where
-import Prelude hiding (and,not,or, succ, pred)
+import Prelude hiding (and,not,or,succ,pred)
+import Util 
 import LC
 
 data Bit = One | Zero  
 instance Show Bit where
     show One = "1"
     show Zero = "0"
-
 
 -- Boolean lambda expressions
 -- cond = \e1.\e2.\c.((c e1) e2)
@@ -16,6 +16,9 @@ cond = \e1 -> \e2 -> \c -> ((c e1) e2)
 true = selectFirst
 -- false = \x.\y.y
 false = selectSecond
+
+-- (true false) === (\f.\s.f \f.\s.s)
+--              === (\s.\f.\s.s )
 
 -- not = \x.((x false) true)
 -- Example:
@@ -47,6 +50,7 @@ three = (succ two)
 
 iszero = \z -> (z selectFirst)
 
+pred :: (forall a. a -> a) -> (a -> p2) -> a -> p2
 pred = \n -> (((iszero n) zero) (n selectSecond))
 -- Exercise 3.1
 -- implication === ~x \/ y 
@@ -60,5 +64,19 @@ pred = \n -> (((iszero n) zero) (n selectSecond))
 implies = \x -> \y -> (or (not x) y)
 implies2 = \x -> \y -> ((y true) ((x false) true))
 
--- Exercise 3.2
+-- Exercise 3.2 WRONG APPROACH
+-- x equiv y === (~x \/ y) /\ (x \/ ~y)
+-- equiv = \x.\y.(and (or (not x) y) (or x (not y)))
+-- = \x.\y.(and (or (not x) y) (or x (not y)))
+-- = \x.\y.((((cond (or (not x) y)) (or x (not y))) false))
+-- = \x.\y.(or x (not y))
+-- = \x.\y.(or x ((y false) true))
+-- = \x.\y.(((((y \f.\s.s) \f.\s.f) \f.\s.f) x))
+--equiv = \x -> \y -> (or x (not y))
+--
+-- x equiv y === (x /\ y) \/ (~x /\ ~y)
 
+
+--equiv :: (forall a b. (a -> b -> a) -> (a -> b -> b)) -> a -> b -> p1 -> p2 -> p2
+--equiv = \x -> \y -> (and (or (not x) y) (or x (not y)))
+--equiv = \x -> \y -> (and (((y true) ((x false) true))) (((x true) (((y false) true) y))))
