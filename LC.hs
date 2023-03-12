@@ -1,3 +1,4 @@
+{-# LANGUAGE BlockArguments #-}
 module LC where
 
 -- Lambda Calculus can be treated as a universal machine code
@@ -52,9 +53,10 @@ identity = \x -> x
 
 idAppliedToItself = (\x -> x) (\x -> x)
 
+newtype Y a = Y { ($$) :: Y a -> a } 
+
 -- Self-application Function
-selfApplication :: (forall a. a -> a) -> b -> b
-selfApplication = \s -> s s
+selfApplication f = Y \s -> f (s $$ s)
 -- The self-application function applied to itself never terminates!
 
 -- Function application function
