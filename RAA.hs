@@ -53,6 +53,136 @@ rec f = selfApplication f $$ selfApplication f
 -- => six
   
 -- Exercise 4.3
+-- funSum1 f fun n = if iszero n then fun zero else add (fun n) (funSum1 f fun (pred n))
+-- double x = add x x
+-- funSum = rec funSum1
+-- funSum double three
+-- => add (double three) (funSum1 double two)
+-- => add (double three) (add (double two) (funSum1 double one))
+-- => add (double three) (add (double two) (add (double one) (funSum1 double zero)))
+-- => add (double three) (add (double two) (add (double one) (double zero)))
+-- => add (double three) (add (double two) (add (add one one) (add zero zero)))
+-- => add (double three) (add (double two) (add two zero))
+-- => add (double three) (add (double two) two)
+-- => add (double three) (add (add two two) two)
+-- => add (double three) (add (add three one) two)
+-- => add (double three) (add (add four zero) two)
+-- => add (double three) (add four two)
+-- => add (double three) (add five one)
+-- => add (double three) (add six zero)
+-- => add (double three) six
+-- => add (add three three) six
+-- => add (add four two) six
+-- => add (add five one) six
+-- => add (add six zero) six
+-- => add six six
+-- => add seven five
+-- => add eight four
+-- => add nine three
+-- => add ten two
+-- => add eleven one
+-- => add twelve zero
+-- => twelve
+
+-- Exercise 4.4
+-- funSumStep1 f fun n s = if iszero n then fun zero else add (fun n) (funSumStep1 f fun (sub n s) s)
+-- funSumStep = rec funSumSte
+-- (a) funSumStep double five two
+-- => add (double five) (funSumStep1 double (sub five two) two)
+-- => add (double five) (funSumStep1 double (sub four one) two)
+-- => add (double five) (funSumStep1 double (sub three zero) two)
+-- => add (double five) (funSumStep1 double three two)
+-- => add (double five) (add (double three) (funSumStep1 double (sub three two) two))
+-- => add (double five) (add (double three) (funSumStep1 double (sub two one) two))
+-- => add (double five) (add (double three) (funSumStep1 double (sub one zero) two))
+-- => add (double five) (add (double three) (funSumStep1 double one two))
+-- => add (double five) (add (double three) (add (double one) (funSumStep1 double (sub one two) two)))
+-- => add (double five) (add (double three) (add (double one) (funSumStep1 double (sub zero one) two)))
+-- => add (double five) (add (double three) (add (double one) (funSumStep1 double zero two)))
+-- => add (double five) (add (double three) (add (double one) (double zero)))
+-- => add (double five) (add (double three) (add (double one) (add zero zero)))
+-- => add (double five) (add (double three) (add (double one) zero))
+-- => add (double five) (add (double three) (add (add one one) zero))
+-- => add (double five) (add (double three) (add (add two zero) zero))
+-- => add (double five) (add (double three) (add two zero))
+-- => add (double five) (add (double three) two)
+-- => add (double five) (add (add three three) two)
+-- => add (double five) (add (add four two) two)
+-- => add (double five) (add (add five one) two)
+-- => add (double five) (add (add six zero) two)
+-- => add (double five) (add six two)
+-- => add (double five) (add seven one)
+-- => add (double five) (add eight zero)
+-- => add (double five) eight
+-- => add (add five five) eight
+-- ...
+-- => add ten eight
+-- ...
+-- => eighteen
+-- 
+-- (b) funSumStep double four two
+-- => add (double four) (funSumStep1 double (sub four two) two)
+-- => add (double four) (funSumStep1 double (sub three one) two)
+-- => add (double four) (funSumStep1 double (sub two zero) two)
+-- => add (double four) (funSumStep1 double two two)
+-- => add (double four) (add (double two) (funSumStep1 double (sub two two) two))
+-- => add (double four) (add (double two) (funSumStep1 double (sub one one) two))
+-- => add (double four) (add (double two) (funSumStep1 double zero two))
+-- => add (double four) (add (double two) (add double zero))
+-- ...
+-- => add (double four) (add four zero)
+-- => add (double four) four
+-- ...
+-- => add eight four
+-- ...
+-- => twelve
+
+-- Exercise 4.5
+-- greater x y = not (iszero (sub x y))
+-- less x y = if equal x y then false else not greater x y
+-- (a) less three two
+-- => not (not (iszero (sub three two)))
+-- => not (not (iszero one))
+-- => not (not false)
+-- => not true
+-- => false
+-- (b) less two three
+-- => not (not (iszero (sub two three)))
+-- => not (not (iszero zero))
+-- => not (not true)
+-- => not false
+-- => true
+-- (c) less two two
+-- => equal two two 
+-- => true
 --
+-- lessOrEqual = if equal x y then true else not greater x y
+-- (d) lessOrEqual three two
+-- => not (not (iszero (sub three two)))
+-- => not (not (iszero one))
+-- => not (not false)
+-- => not true
+-- => false
+-- (e) lessOrEqual two three
+-- => not (not (iszero (sub two three)))
+-- => not (not (iszero zero))
+-- => not (not true)
+-- => not false
+-- => true
+-- (f) lessOrEqual two two
+-- => equal two two 
+-- => true
 
-
+-- Exercise 4.6
+-- mod x y = if zero y then x else mod1 x y
+-- mod1 x y = if less x y then x else mod1 (sub x y) y
+-- (a) mod three two
+-- => mod1 three two
+-- => mod1 (sub three two) three
+-- => mod1 one three
+-- => one
+-- (b) mod two three
+-- => mod1 two three
+-- => two
+-- (c) mod three zero
+-- => three
